@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Reader
 {
-    internal class Program
-    {
-        public static Node Main(string filePath = "00_country_ideas.txt")
+        public class Parser
+        {
+        public static Node Parse(string filePath = "00_country_ideas.txt")
         {
             string content = File.ReadAllText(filePath);
             Node rootNode = new Node
@@ -87,5 +87,8 @@ namespace Reader
 
             return index;
         }
+
     }
-    }
+
+}
+

@@ -10,6 +10,7 @@ namespace ParadoxEditor
         private const int closeButtonSize = 12;
         private const int closeButtonMargin = 4;
         private List<TabPage> closedPages = new List<TabPage>();
+        public DarkTabControl otherTabControl;
 
         public DarkTabControl()
         {
@@ -108,13 +109,15 @@ namespace ParadoxEditor
                         ToolStripMenuItem closeAllOtherTabsMenuItem = new ToolStripMenuItem("Close all tabs");
                         ToolStripMenuItem restoreClosedTabMenuItem = new ToolStripMenuItem("Restore closed tab");
                         ToolStripMenuItem pinTabMenuItem = new ToolStripMenuItem("Pin tab");
+                        ToolStripMenuItem moveToOtherViewItem = new ToolStripMenuItem("Move to other view");
 
-                        contextMenu.Items.AddRange(new ToolStripItem[] { closeTabMenuItem, closeAllButThisMenuItem, closeAllOtherTabsMenuItem, restoreClosedTabMenuItem, pinTabMenuItem });
+                        contextMenu.Items.AddRange(new ToolStripItem[] { closeTabMenuItem, closeAllButThisMenuItem, closeAllOtherTabsMenuItem, restoreClosedTabMenuItem, pinTabMenuItem, moveToOtherViewItem });
 
                         closeTabMenuItem.Click += (sender, args) => { closedPages.Add(this.SelectedTab); this.TabPages.Remove(this.SelectedTab); };
                         closeAllButThisMenuItem.Click += (sender, args) => { CloseAllTabsExcept(this.SelectedTab); };
                         closeAllOtherTabsMenuItem.Click += (sender, args) => { CloseAllTabs(); };
                         restoreClosedTabMenuItem.Click += (sender, args) => { RestoreLastClosedTab(); };
+                        moveToOtherViewItem.Click += (sender, args) => { MoveToOtherView(); };
 
                         // Implement pin tab functionality based on your specific requirements
 
@@ -154,6 +157,16 @@ namespace ParadoxEditor
                 this.TabPages.Add(lastClosedTab);
                 this.SelectedTab = lastClosedTab;
                 closedPages.RemoveAt(closedPages.Count - 1);
+            }
+        }
+        private void MoveToOtherView()
+        {
+            if (otherTabControl != null)
+            {
+                TabPage selectedTab = this.SelectedTab;
+                this.TabPages.Remove(selectedTab);
+                otherTabControl.TabPages.Add(selectedTab);
+                otherTabControl.SelectedTab = selectedTab;
             }
         }
 

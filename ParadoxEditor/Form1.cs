@@ -10,7 +10,9 @@ namespace ParadoxEditor
         {
             InitializeComponent();
             tabControl1.BackColor = Color.FromArgb(45, 45, 48);
+            tabControl1.otherTabControl = TabControl2;
             tabControl1.ForeColor = Color.FromArgb(220, 220, 220);
+            TabControl2.otherTabControl = tabControl1;
             treeView1.BackColor = Color.FromArgb(45, 45, 48);
             treeView1.ForeColor = Color.FromArgb(220, 220, 220);
         }
@@ -74,6 +76,7 @@ namespace ParadoxEditor
         private void PopulateTreeView(TreeView treeView, string folderPath)
         {
             treeView.Nodes.Clear();
+
             TreeNode rootNode = new TreeNode(folderPath);
             treeView.Nodes.Add(rootNode);
 
@@ -90,15 +93,16 @@ namespace ParadoxEditor
 
                 foreach (string dir in dirs)
                 {
-                    TreeNode newNode = new TreeNode(Path.GetFileName(dir), 0, 0);
-                    node.Nodes.Add(newNode);
-                    FillNode(newNode, dir);
+                        TreeNode newNode = new TreeNode(Path.GetFileName(dir), 0, 0);
+                        node.Nodes.Add(newNode);
+                        FillNode(newNode, dir);
+
                 }
 
                 foreach (string file in files)
                 {
-                    TreeNode fileNode = new TreeNode(Path.GetFileName(file), 1, 1);
-                    node.Nodes.Add(fileNode);
+                        TreeNode fileNode = new TreeNode(Path.GetFileName(file), 1, 1);
+                        node.Nodes.Add(fileNode);
                 }
             }
             catch (Exception ex)
@@ -184,6 +188,10 @@ namespace ParadoxEditor
             if (selectedNode != null)
             {
                 TabPage tabPage = new TabPage(selectedNode.Text);
+                TextEditorUserControl textEditor = new TextEditorUserControl();
+                tabPage.Controls.Add(textEditor);
+                textEditor.Dock = DockStyle.Fill;
+                textEditor.richTextBox1.Text = Reader.Parser.Parse(selectedNode.FullPath).ToString();
                 tabControl1.TabPages.Add(tabPage);
                 tabControl1.SelectedTab = tabPage;
             }
@@ -200,5 +208,9 @@ namespace ParadoxEditor
             return path;
         }
 
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
     }
 }
