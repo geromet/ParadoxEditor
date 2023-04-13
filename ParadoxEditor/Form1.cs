@@ -95,16 +95,16 @@ namespace ParadoxEditor
 
                 foreach (string dir in dirs)
                 {
-                        TreeNode newNode = new TreeNode(Path.GetFileName(dir), 0, 0);
-                        node.Nodes.Add(newNode);
-                        FillNode(newNode, dir);
+                    TreeNode newNode = new TreeNode(Path.GetFileName(dir), 0, 0);
+                    node.Nodes.Add(newNode);
+                    FillNode(newNode, dir);
 
                 }
 
                 foreach (string file in files)
                 {
-                        TreeNode fileNode = new TreeNode(Path.GetFileName(file), 1, 1);
-                        node.Nodes.Add(fileNode);
+                    TreeNode fileNode = new TreeNode(Path.GetFileName(file), 1, 1);
+                    node.Nodes.Add(fileNode);
                 }
             }
             catch (Exception ex)
@@ -191,8 +191,8 @@ namespace ParadoxEditor
                 TextEditorUserControl textEditor = new TextEditorUserControl();
                 tabPage.Controls.Add(textEditor);
                 textEditor.Dock = DockStyle.Fill;
-                Node rootNode =  await Reader.NodeLibrary.ParseInput(selectedNode.FullPath);
-                if(rootNode!=null)
+                Node rootNode = await Reader.NodeLibrary.ParseInput(selectedNode.FullPath);
+                if (rootNode != null)
                 {
                     textEditor.richTextBox1.Text = NodeLibrary.Print(rootNode);
                     tabControl1.TabPages.Add(tabPage);
@@ -216,6 +216,11 @@ namespace ParadoxEditor
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
+        }
+
+        private void EmptyDatabasetoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reader.NodeLibrary.EmptyDatabase();
         }
     }
 }

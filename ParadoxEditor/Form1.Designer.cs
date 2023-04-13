@@ -43,6 +43,7 @@
             splitContainer1 = new SplitContainer();
             tabControl1 = new DarkTabControl();
             TabControl2 = new DarkTabControl();
+            EmptyDatabasetoolStripMenuItem = new ToolStripMenuItem();
             MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -57,8 +58,7 @@
             MainMenu.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem, projectToolStripMenuItem, exitToolStripMenuItem, resizeToolStripMenuItem, minimizeToolStripMenuItem });
             MainMenu.Location = new Point(0, 0);
             MainMenu.Name = "MainMenu";
-            MainMenu.Padding = new Padding(7, 3, 0, 3);
-            MainMenu.Size = new Size(914, 30);
+            MainMenu.Size = new Size(800, 24);
             MainMenu.TabIndex = 2;
             MainMenu.MouseDown += MainMenu_MouseDown_1;
             // 
@@ -66,9 +66,9 @@
             // 
             fileToolStripMenuItem.BackColor = Color.FromArgb(46, 44, 44);
             fileToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importFileToolStripMenuItem, importDirectoryToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importFileToolStripMenuItem, importDirectoryToolStripMenuItem, EmptyDatabasetoolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(46, 24);
+            fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
             // 
             // importFileToolStripMenuItem
@@ -77,7 +77,7 @@
             importFileToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
             importFileToolStripMenuItem.ForeColor = Color.FromArgb(113, 111, 111);
             importFileToolStripMenuItem.Name = "importFileToolStripMenuItem";
-            importFileToolStripMenuItem.Size = new Size(202, 26);
+            importFileToolStripMenuItem.Size = new Size(180, 22);
             importFileToolStripMenuItem.Text = "Import File";
             // 
             // importDirectoryToolStripMenuItem
@@ -86,33 +86,33 @@
             importDirectoryToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
             importDirectoryToolStripMenuItem.ForeColor = Color.FromArgb(113, 111, 111);
             importDirectoryToolStripMenuItem.Name = "importDirectoryToolStripMenuItem";
-            importDirectoryToolStripMenuItem.Size = new Size(202, 26);
+            importDirectoryToolStripMenuItem.Size = new Size(180, 22);
             importDirectoryToolStripMenuItem.Text = "Import Directory";
             importDirectoryToolStripMenuItem.Click += importDirectoryToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(49, 24);
+            editToolStripMenuItem.Size = new Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
             // 
             // viewToolStripMenuItem
             // 
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(55, 24);
+            viewToolStripMenuItem.Size = new Size(44, 20);
             viewToolStripMenuItem.Text = "View";
             // 
             // projectToolStripMenuItem
             // 
             projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            projectToolStripMenuItem.Size = new Size(69, 24);
+            projectToolStripMenuItem.Size = new Size(56, 20);
             projectToolStripMenuItem.Text = "Project";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(47, 24);
+            exitToolStripMenuItem.Size = new Size(38, 20);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -120,7 +120,7 @@
             // 
             resizeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             resizeToolStripMenuItem.Name = "resizeToolStripMenuItem";
-            resizeToolStripMenuItem.Size = new Size(65, 24);
+            resizeToolStripMenuItem.Size = new Size(51, 20);
             resizeToolStripMenuItem.Text = "Resize";
             resizeToolStripMenuItem.Click += resizeToolStripMenuItem_Click;
             // 
@@ -128,7 +128,7 @@
             // 
             minimizeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
-            minimizeToolStripMenuItem.Size = new Size(84, 24);
+            minimizeToolStripMenuItem.Size = new Size(68, 20);
             minimizeToolStripMenuItem.Text = "Minimize";
             minimizeToolStripMenuItem.Click += minimizeToolStripMenuItem_Click;
             // 
@@ -139,9 +139,10 @@
             treeView1.BorderStyle = BorderStyle.None;
             treeView1.Dock = DockStyle.Left;
             treeView1.ForeColor = Color.FromArgb(101, 99, 99);
-            treeView1.Location = new Point(0, 30);
+            treeView1.Location = new Point(0, 24);
+            treeView1.Margin = new Padding(3, 2, 3, 2);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(250, 570);
+            treeView1.Size = new Size(219, 426);
             treeView1.TabIndex = 3;
             treeView1.AfterSelect += treeView1_AfterSelect;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
@@ -149,7 +150,8 @@
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(250, 30);
+            splitContainer1.Location = new Point(219, 24);
+            splitContainer1.Margin = new Padding(3, 2, 3, 2);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -159,8 +161,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(TabControl2);
-            splitContainer1.Size = new Size(664, 570);
-            splitContainer1.SplitterDistance = 331;
+            splitContainer1.Size = new Size(581, 426);
+            splitContainer1.SplitterDistance = 289;
             splitContainer1.TabIndex = 5;
             // 
             // tabControl1
@@ -169,9 +171,10 @@
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(3, 2, 3, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(331, 570);
+            tabControl1.Size = new Size(289, 426);
             tabControl1.TabIndex = 5;
             // 
             // TabControl2
@@ -180,24 +183,34 @@
             TabControl2.Dock = DockStyle.Fill;
             TabControl2.DrawMode = TabDrawMode.OwnerDrawFixed;
             TabControl2.Location = new Point(0, 0);
+            TabControl2.Margin = new Padding(3, 2, 3, 2);
             TabControl2.Name = "TabControl2";
             TabControl2.SelectedIndex = 0;
-            TabControl2.Size = new Size(329, 570);
+            TabControl2.Size = new Size(288, 426);
             TabControl2.TabIndex = 5;
+            // 
+            // EmptyDatabasetoolStripMenuItem
+            // 
+            EmptyDatabasetoolStripMenuItem.BackColor = Color.FromArgb(54, 52, 52);
+            EmptyDatabasetoolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            EmptyDatabasetoolStripMenuItem.ForeColor = Color.FromArgb(113, 111, 111);
+            EmptyDatabasetoolStripMenuItem.Name = "EmptyDatabasetoolStripMenuItem";
+            EmptyDatabasetoolStripMenuItem.Size = new Size(180, 22);
+            EmptyDatabasetoolStripMenuItem.Text = "Empty Database";
+            EmptyDatabasetoolStripMenuItem.Click += EmptyDatabasetoolStripMenuItem_Click;
             // 
             // ParadoxEditor
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(34, 32, 32);
-            ClientSize = new Size(914, 600);
+            ClientSize = new Size(800, 450);
             ControlBox = false;
             Controls.Add(splitContainer1);
             Controls.Add(treeView1);
             Controls.Add(MainMenu);
             ForeColor = Color.FromArgb(101, 99, 99);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 4, 3, 4);
             MinimizeBox = false;
             Name = "ParadoxEditor";
             MainMenu.ResumeLayout(false);
@@ -227,5 +240,6 @@
         private SplitContainer splitContainer1;
         private DarkTabControl tabControl1;
         private DarkTabControl TabControl2;
+        private ToolStripMenuItem EmptyDatabasetoolStripMenuItem;
     }
 }

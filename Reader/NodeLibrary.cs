@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,15 +52,29 @@ namespace Reader
             return await context.InputFiles.AnyAsync(i => i.FilePath == filePath);
         }
 
-        public static async Task EmptyDatabaseAndRepopulate(List<string> filePaths)
+        public static async Task EmptyDatabase()
         {
-            using var context = new NodeContext();
-            context.InputFiles.RemoveRange(context.InputFiles);
-            await context.SaveChangesAsync();
+            string connectionString = "Data Source=input_files.db";
 
-            foreach (string filePath in filePaths)
+            using var connection = new SqliteConnection(connectionString);
+            await connection.OpenAsync();
+
+            using (var transaction = connection.BeginTransaction())
             {
-                await ParseInput(filePath);
+                using (var command = new SqliteCommand(connection))
+                {
+                    command.Transaction = transaction;
+
+                    // Delete all data in the Node table
+                    command.CommandText = "DELETE FROM Nodes";
+                    await command.ExecuteNonQueryAsync();
+
+                    // Delete all data in the InputFiles table
+                    command.CommandText = "DELETE FROM InputFiles";
+                    await command.ExecuteNonQueryAsync();
+                }
+
+                transaction.Commit();
             }
         }
 
