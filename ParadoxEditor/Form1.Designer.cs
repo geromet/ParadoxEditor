@@ -42,16 +42,16 @@
             folderBrowserDialog1 = new FolderBrowserDialog();
             splitContainer1 = new SplitContainer();
             tabControl1 = new DarkTabControl();
-            TabControl2 = new DarkTabControl();
+            tabControl2 = new DarkTabControl();
             MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             SuspendLayout();
-            // 
+            //
             // MainMenu
-            // 
+            //
             MainMenu.BackColor = Color.FromArgb(46, 44, 44);
             MainMenu.ImageScalingSize = new Size(20, 20);
             MainMenu.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem, projectToolStripMenuItem, exitToolStripMenuItem, resizeToolStripMenuItem, minimizeToolStripMenuItem });
@@ -61,27 +61,27 @@
             MainMenu.Size = new Size(914, 30);
             MainMenu.TabIndex = 2;
             MainMenu.MouseDown += MainMenu_MouseDown_1;
-            // 
+            //
             // fileToolStripMenuItem
-            // 
+            //
             fileToolStripMenuItem.BackColor = Color.FromArgb(46, 44, 44);
             fileToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importFileToolStripMenuItem, importDirectoryToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
-            // 
+            //
             // importFileToolStripMenuItem
-            // 
+            //
             importFileToolStripMenuItem.BackColor = Color.FromArgb(54, 52, 52);
             importFileToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
             importFileToolStripMenuItem.ForeColor = Color.FromArgb(113, 111, 111);
             importFileToolStripMenuItem.Name = "importFileToolStripMenuItem";
             importFileToolStripMenuItem.Size = new Size(202, 26);
             importFileToolStripMenuItem.Text = "Import File";
-            // 
+            //
             // importDirectoryToolStripMenuItem
-            // 
+            //
             importDirectoryToolStripMenuItem.BackColor = Color.FromArgb(54, 52, 52);
             importDirectoryToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
             importDirectoryToolStripMenuItem.ForeColor = Color.FromArgb(113, 111, 111);
@@ -89,51 +89,51 @@
             importDirectoryToolStripMenuItem.Size = new Size(202, 26);
             importDirectoryToolStripMenuItem.Text = "Import Directory";
             importDirectoryToolStripMenuItem.Click += importDirectoryToolStripMenuItem_Click;
-            // 
+            //
             // editToolStripMenuItem
-            // 
+            //
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(49, 24);
             editToolStripMenuItem.Text = "Edit";
-            // 
+            //
             // viewToolStripMenuItem
-            // 
+            //
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new Size(55, 24);
             viewToolStripMenuItem.Text = "View";
-            // 
+            //
             // projectToolStripMenuItem
-            // 
+            //
             projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             projectToolStripMenuItem.Size = new Size(69, 24);
             projectToolStripMenuItem.Text = "Project";
-            // 
+            //
             // exitToolStripMenuItem
-            // 
+            //
             exitToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             exitToolStripMenuItem.Size = new Size(47, 24);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
-            // 
+            //
             // resizeToolStripMenuItem
-            // 
+            //
             resizeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             resizeToolStripMenuItem.Name = "resizeToolStripMenuItem";
             resizeToolStripMenuItem.Size = new Size(65, 24);
             resizeToolStripMenuItem.Text = "Resize";
             resizeToolStripMenuItem.Click += resizeToolStripMenuItem_Click;
-            // 
+            //
             // minimizeToolStripMenuItem
-            // 
+            //
             minimizeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
             minimizeToolStripMenuItem.Size = new Size(84, 24);
             minimizeToolStripMenuItem.Text = "Minimize";
             minimizeToolStripMenuItem.Click += minimizeToolStripMenuItem_Click;
-            // 
+            //
             // treeView1
-            // 
+            //
             treeView1.AllowDrop = true;
             treeView1.BackColor = Color.FromArgb(38, 36, 36);
             treeView1.BorderStyle = BorderStyle.None;
@@ -145,26 +145,26 @@
             treeView1.TabIndex = 3;
             treeView1.AfterSelect += treeView1_AfterSelect;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
-            // 
+            //
             // splitContainer1
-            // 
+            //
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(250, 30);
             splitContainer1.Name = "splitContainer1";
-            // 
+            //
             // splitContainer1.Panel1
-            // 
+            //
             splitContainer1.Panel1.Controls.Add(tabControl1);
-            // 
+            //
             // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(TabControl2);
+            //
+            splitContainer1.Panel2.Controls.Add(tabControl2);
             splitContainer1.Size = new Size(664, 570);
             splitContainer1.SplitterDistance = 331;
             splitContainer1.TabIndex = 5;
-            // 
+            //
             // tabControl1
-            // 
+            //
             tabControl1.Appearance = TabAppearance.FlatButtons;
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -173,20 +173,20 @@
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(331, 570);
             tabControl1.TabIndex = 5;
-            // 
-            // TabControl2
-            // 
-            TabControl2.Appearance = TabAppearance.FlatButtons;
-            TabControl2.Dock = DockStyle.Fill;
-            TabControl2.DrawMode = TabDrawMode.OwnerDrawFixed;
-            TabControl2.Location = new Point(0, 0);
-            TabControl2.Name = "TabControl2";
-            TabControl2.SelectedIndex = 0;
-            TabControl2.Size = new Size(329, 570);
-            TabControl2.TabIndex = 5;
-            // 
+            //
+            // tabControl2
+            //
+            tabControl2.Appearance = TabAppearance.FlatButtons;
+            tabControl2.Dock = DockStyle.Fill;
+            tabControl2.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControl2.Location = new Point(0, 0);
+            tabControl2.Name = "tabControl2";
+            tabControl2.SelectedIndex = 0;
+            tabControl2.Size = new Size(329, 570);
+            tabControl2.TabIndex = 5;
+            //
             // ParadoxEditor
-            // 
+            //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(34, 32, 32);
@@ -226,6 +226,6 @@
         private FolderBrowserDialog folderBrowserDialog1;
         private SplitContainer splitContainer1;
         private DarkTabControl tabControl1;
-        private DarkTabControl TabControl2;
+        private DarkTabControl tabControl2;
     }
 }

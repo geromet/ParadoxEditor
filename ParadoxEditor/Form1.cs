@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Reader;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -12,9 +13,11 @@ namespace ParadoxEditor
         {
             InitializeComponent();
             tabControl1.BackColor = Color.FromArgb(45, 45, 48);
-            tabControl1.otherTabControl = TabControl2;
+            tabControl1.otherTabControl = tabControl2;
             tabControl1.ForeColor = Color.FromArgb(220, 220, 220);
-            TabControl2.otherTabControl = tabControl1;
+            tabControl1.VisibleChanged += TabControl_VisibleChanged;
+            tabControl2.otherTabControl = tabControl1;
+            tabControl2.VisibleChanged += TabControl_VisibleChanged;
             treeView1.BackColor = Color.FromArgb(45, 45, 48);
             treeView1.ForeColor = Color.FromArgb(220, 220, 220);
         }
@@ -95,16 +98,16 @@ namespace ParadoxEditor
 
                 foreach (string dir in dirs)
                 {
-                        TreeNode newNode = new TreeNode(Path.GetFileName(dir), 0, 0);
-                        node.Nodes.Add(newNode);
-                        FillNode(newNode, dir);
+                    TreeNode newNode = new TreeNode(Path.GetFileName(dir), 0, 0);
+                    node.Nodes.Add(newNode);
+                    FillNode(newNode, dir);
 
                 }
 
                 foreach (string file in files)
                 {
-                        TreeNode fileNode = new TreeNode(Path.GetFileName(file), 1, 1);
-                        node.Nodes.Add(fileNode);
+                    TreeNode fileNode = new TreeNode(Path.GetFileName(file), 1, 1);
+                    node.Nodes.Add(fileNode);
                 }
             }
             catch (Exception ex)
@@ -120,7 +123,6 @@ namespace ParadoxEditor
             Rectangle tabBounds = tabControl.GetTabRect(e.Index);
             Color backgroundColor = Color.FromArgb(45, 45, 48);
             Color foregroundColor = Color.FromArgb(220, 220, 220);
-
             using (Brush backgroundBrush = new SolidBrush(backgroundColor))
             {
                 e.Graphics.FillRectangle(backgroundBrush, e.Bounds);
@@ -187,14 +189,19 @@ namespace ParadoxEditor
 
             if (selectedNode != null)
             {
-                TabPage tabPage = new TabPage(selectedNode.Text);
-                TextEditorUserControl textEditor = new TextEditorUserControl();
-                tabPage.Controls.Add(textEditor);
-                textEditor.Dock = DockStyle.Fill;
-                Node rootNode =  await Reader.NodeLibrary.ParseInput(selectedNode.FullPath);
-                if(rootNode!=null)
+                Node rootNode = await Reader.NodeLibrary.ParseInput(selectedNode.FullPath);
+                if (rootNode != null)
                 {
-                    textEditor.richTextBox1.Text = NodeLibrary.Print(rootNode);
+                    TabPage tabPage = new TabPage(selectedNode.Text);
+                    DesignerBrowserUserControl designerBrowser = new();
+                    designerBrowser.Dock = DockStyle.Left;
+                    List<string> names = new();
+                    foreach (Node node in rootNode.Children)
+                    {
+                        names.Add(node.Name);
+                    }
+                    designerBrowser.PopulateListView(names);
+                    tabPage.Controls.Add(designerBrowser);
                     tabControl1.TabPages.Add(tabPage);
                     tabControl1.SelectedTab = tabPage;
                 }
@@ -216,6 +223,21 @@ namespace ParadoxEditor
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
+        }
+        private void TabControl_VisibleChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.Visible && !tabControl2.Visible)
+            {
+                splitContainer1.SplitterDistance = splitContainer1.Width;
+            }
+            else if (!tabControl1.Visible && tabControl2.Visible)
+            {
+                splitContainer1.SplitterDistance = 0;
+            }
+            else
+            {
+                splitContainer1.SplitterDistance = splitContainer1.Width / 2;
+            }
         }
     }
 }

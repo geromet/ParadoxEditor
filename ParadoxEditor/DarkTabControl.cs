@@ -11,6 +11,8 @@ namespace ParadoxEditor
         private const int closeButtonMargin = 4;
         private List<TabPage> closedPages = new List<TabPage>();
         public DarkTabControl otherTabControl;
+        private bool isHideButtonPressed = false;
+        public bool isHidden = false;
 
         public DarkTabControl()
         {
@@ -66,6 +68,10 @@ namespace ParadoxEditor
             {
                 Rectangle tabBounds = this.GetTabRect(i);
 
+                // Draw hide button
+                Rectangle hideButtonRect = new Rectangle(tabBounds.Left + closeButtonMargin, tabBounds.Top + closeButtonMargin, closeButtonSize, closeButtonSize);
+                ControlPaint.DrawCaptionButton(e.Graphics, hideButtonRect, CaptionButton.Minimize, ButtonState.Normal);
+
                 // Draw close button
                 Rectangle closeButtonRect = new Rectangle(tabBounds.Right - closeButtonSize - closeButtonMargin, tabBounds.Top + closeButtonMargin, closeButtonSize, closeButtonSize);
                 ControlPaint.DrawCaptionButton(e.Graphics, closeButtonRect, CaptionButton.Close, ButtonState.Normal);
@@ -76,6 +82,17 @@ namespace ParadoxEditor
         {
             base.OnMouseClick(e);
 
+            // Check if the hide button is pressed
+            if (isHideButtonPressed)
+            {
+                if (otherTabControl != null)
+                {
+                    otherTabControl.Visible = !otherTabControl.Visible;
+                }
+                isHideButtonPressed = false;
+                return;
+            }
+
             for (int i = 0; i < this.TabCount; i++)
             {
                 Rectangle tabBounds = this.GetTabRect(i);
@@ -85,6 +102,14 @@ namespace ParadoxEditor
                 {
                     closedPages.Add(this.TabPages[i]);
                     this.TabPages.RemoveAt(i);
+                    break;
+                }
+
+                // Add a check for hide button click
+                Rectangle hideButtonRect = new Rectangle(tabBounds.Left + closeButtonMargin, tabBounds.Top + closeButtonMargin, closeButtonSize, closeButtonSize);
+                if (hideButtonRect.Contains(e.Location))
+                {
+                    isHideButtonPressed = true;
                     break;
                 }
             }
@@ -110,14 +135,16 @@ namespace ParadoxEditor
                         ToolStripMenuItem restoreClosedTabMenuItem = new ToolStripMenuItem("Restore closed tab");
                         ToolStripMenuItem pinTabMenuItem = new ToolStripMenuItem("Pin tab");
                         ToolStripMenuItem moveToOtherViewItem = new ToolStripMenuItem("Move to other view");
+                        ToolStripMenuItem hideTabControl = new ToolStripMenuItem("Hide other view");
 
-                        contextMenu.Items.AddRange(new ToolStripItem[] { closeTabMenuItem, closeAllButThisMenuItem, closeAllOtherTabsMenuItem, restoreClosedTabMenuItem, pinTabMenuItem, moveToOtherViewItem });
+                        contextMenu.Items.AddRange(new ToolStripItem[] { closeTabMenuItem, closeAllButThisMenuItem, closeAllOtherTabsMenuItem, restoreClosedTabMenuItem, pinTabMenuItem, moveToOtherViewItem, hideTabControl });
 
                         closeTabMenuItem.Click += (sender, args) => { closedPages.Add(this.SelectedTab); this.TabPages.Remove(this.SelectedTab); };
                         closeAllButThisMenuItem.Click += (sender, args) => { CloseAllTabsExcept(this.SelectedTab); };
                         closeAllOtherTabsMenuItem.Click += (sender, args) => { CloseAllTabs(); };
                         restoreClosedTabMenuItem.Click += (sender, args) => { RestoreLastClosedTab(); };
                         moveToOtherViewItem.Click += (sender, args) => { MoveToOtherView(); };
+                        hideTabControl.Click += (sender, args) => { HideTabControl(); };
 
                         // Implement pin tab functionality based on your specific requirements
 
@@ -125,6 +152,24 @@ namespace ParadoxEditor
                         break;
                     }
                 }
+            }
+        }
+        private void HideTabControl()
+        {
+            if (otherTabControl != null)
+            {
+                TabPage selectedTab = this.SelectedTab;
+                if(otherTabControl.isHidden)
+                {
+                    otherTabControl.Show();
+                    otherTabControl.isHidden = false;
+                }
+                else
+                {
+                    otherTabControl.Hide();
+                    otherTabControl.isHidden = true;
+                }
+
             }
         }
         private void CloseAllTabsExcept(TabPage tabPageToKeep)
@@ -163,6 +208,11 @@ namespace ParadoxEditor
         {
             if (otherTabControl != null)
             {
+                if(otherTabControl.isHidden)
+                {
+                    otherTabControl.Show();
+                    otherTabControl.isHidden = false;
+                }
                 TabPage selectedTab = this.SelectedTab;
                 this.TabPages.Remove(selectedTab);
                 otherTabControl.TabPages.Add(selectedTab);

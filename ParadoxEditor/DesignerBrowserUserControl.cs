@@ -16,5 +16,13 @@ namespace ParadoxEditor
         {
             InitializeComponent();
         }
+        public void PopulateListView(List<string> names)
+        {
+            listView1.Items.Clear();
+            foreach (string name in names)
+            {
+                listView1.Items.Add(new ListViewItem(name));
+            }
+        }
     }
 }
