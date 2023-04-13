@@ -12,55 +12,12 @@ namespace Reader
     {
         public static async Task<Node> ParseInput(string filePath)
         {
-            using var context = new NodeContext();
-
-            if (await CheckIfFileParsed(filePath))
-            {
-                var inputFile = await context.InputFiles
-                    .Include(i => i.RootNode)
-                    .FirstOrDefaultAsync(i => i.FilePath == filePath);
-
-                return inputFile?.RootNode;
-            }
-
             using var reader = new StreamReader(filePath);
             var parser = new Parser(reader);
             var rootNode = await parser.ParseAsync();
             var inputFileRecord = new InputFile { FilePath = filePath, RootNode = rootNode };
-            context.InputFiles.Add(inputFileRecord);
-            await context.SaveChangesAsync();
 
             return rootNode;
-        }
-
-        public static async Task<Node> FindRootNodeByFilePath(string filePath)
-        {
-            using var context = new NodeContext();
-            var inputFile = await context.InputFiles.FirstOrDefaultAsync(file => file.FilePath == filePath);
-
-            if (inputFile != null)
-            {
-                return inputFile.RootNode;
-            }
-
-            return null;
-        }
-        private static async Task<bool> CheckIfFileParsed(string filePath)
-        {
-            using var context = new NodeContext();
-            return await context.InputFiles.AnyAsync(i => i.FilePath == filePath);
-        }
-
-        public static async Task EmptyDatabaseAndRepopulate(List<string> filePaths)
-        {
-            using var context = new NodeContext();
-            context.InputFiles.RemoveRange(context.InputFiles);
-            await context.SaveChangesAsync();
-
-            foreach (string filePath in filePaths)
-            {
-                await ParseInput(filePath);
-            }
         }
 
         public static string Print(Node node)
