@@ -40,6 +40,7 @@
             richTextBox1.Size = new Size(150, 150);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
+            richTextBox1.KeyDown += richTextBox1_KeyDown;
             // 
             // TextEditorUserControl
             // 

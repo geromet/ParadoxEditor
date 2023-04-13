@@ -1,4 +1,6 @@
-﻿namespace ParadoxEditor
+﻿using ParadoxEditor.Controls;
+
+namespace ParadoxEditor
 {
     partial class DesignerBrowserUserControl
     {

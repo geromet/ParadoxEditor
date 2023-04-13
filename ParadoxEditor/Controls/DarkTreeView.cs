@@ -1,8 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
-using ParadoxEditor;
 
-namespace ParadoxEditor
+namespace ParadoxEditor.Controls
 {
     public class DarkTreeView : TreeView
     {
@@ -10,27 +9,27 @@ namespace ParadoxEditor
 
         public DarkTreeView()
         {
-            this.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            this.DrawNode += DarkTreeView_DrawNode;
-            this.Scrollable = true;
+            DrawMode = TreeViewDrawMode.OwnerDrawText;
+            DrawNode += DarkTreeView_DrawNode;
+            Scrollable = true;
 
-            this.BackColor = Color.FromArgb(45, 45, 48);
-            this.ForeColor = Color.FromArgb(240, 240, 240);
+            BackColor = Color.FromArgb(45, 45, 48);
+            ForeColor = Color.FromArgb(240, 240, 240);
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             UpdateStyles();
 
             darkSlimVScrollBar = new DarkSlimVScrollBar();
             darkSlimVScrollBar.Scroll += DarkSlimVScrollBar_Scroll;
-            this.Controls.Add(darkSlimVScrollBar);
-            this.Resize += DarkTreeView_Resize;
+            Controls.Add(darkSlimVScrollBar);
+            Resize += DarkTreeView_Resize;
         }
 
         private void DarkTreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             e.DrawDefault = true;
-            e.Node.BackColor = this.BackColor;
-            e.Node.ForeColor = this.ForeColor;
+            e.Node.BackColor = BackColor;
+            e.Node.ForeColor = ForeColor;
         }
 
         protected override void WndProc(ref Message m)
@@ -39,9 +38,9 @@ namespace ParadoxEditor
 
             if (m.Msg == 0x000F) // WM_PAINT
             {
-                if (darkSlimVScrollBar.Visible != this.IsVerticalScrollBarVisible())
+                if (darkSlimVScrollBar.Visible != IsVerticalScrollBarVisible())
                 {
-                    darkSlimVScrollBar.Visible = this.IsVerticalScrollBarVisible();
+                    darkSlimVScrollBar.Visible = IsVerticalScrollBarVisible();
                 }
             }
         }
@@ -50,8 +49,8 @@ namespace ParadoxEditor
         {
             if (darkSlimVScrollBar.Visible)
             {
-                darkSlimVScrollBar.Location = new Point(this.Width - darkSlimVScrollBar.Width, 0);
-                darkSlimVScrollBar.Size = new Size(darkSlimVScrollBar.Width, this.Height);
+                darkSlimVScrollBar.Location = new Point(Width - darkSlimVScrollBar.Width, 0);
+                darkSlimVScrollBar.Size = new Size(darkSlimVScrollBar.Width, Height);
                 darkSlimVScrollBar.BringToFront();
             }
         }
@@ -64,13 +63,13 @@ namespace ParadoxEditor
                 int newPosition = se.NewValue;
                 int delta = newPosition - oldPosition;
 
-                SendMessage(this.Handle, 0x0115, (IntPtr)(delta << 16), IntPtr.Zero);
+                SendMessage(Handle, 0x0115, delta << 16, IntPtr.Zero);
             }
         }
 
         private bool IsVerticalScrollBarVisible()
         {
-            int style = (int)GetWindowLong(this.Handle, -16);
+            int style = (int)GetWindowLong(Handle, -16);
             return (style & 0x00200000) != 0;
         }
 

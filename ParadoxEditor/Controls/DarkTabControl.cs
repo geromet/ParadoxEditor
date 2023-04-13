@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace ParadoxEditor
+namespace ParadoxEditor.Controls
 {
     public class DarkTabControl : TabControl
     {
@@ -16,8 +16,8 @@ namespace ParadoxEditor
 
         public DarkTabControl()
         {
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-            this.DoubleBuffered = true;
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+            DoubleBuffered = true;
         }
 
         protected override void WndProc(ref Message m)
@@ -26,7 +26,7 @@ namespace ParadoxEditor
 
             if (m.Msg == 0x000F) // WM_PAINT
             {
-                using (Graphics g = this.CreateGraphics())
+                using (Graphics g = CreateGraphics())
                 {
                     // Draw the content area background
                     using (Brush backgroundBrush = new SolidBrush(backgroundColor))
@@ -35,10 +35,10 @@ namespace ParadoxEditor
                     }
 
                     // Draw the tab headers
-                    for (int i = 0; i < this.TabCount; i++)
+                    for (int i = 0; i < TabCount; i++)
                     {
-                        Rectangle tabBounds = this.GetTabRect(i);
-                        TabPage tabPage = this.TabPages[i];
+                        Rectangle tabBounds = GetTabRect(i);
+                        TabPage tabPage = TabPages[i];
 
                         // Draw the tab header background
                         using (Brush backgroundBrush = new SolidBrush(backgroundColor))
@@ -64,9 +64,9 @@ namespace ParadoxEditor
         {
             base.OnPaint(e);
 
-            for (int i = 0; i < this.TabCount; i++)
+            for (int i = 0; i < TabCount; i++)
             {
-                Rectangle tabBounds = this.GetTabRect(i);
+                Rectangle tabBounds = GetTabRect(i);
 
                 // Draw hide button
                 Rectangle hideButtonRect = new Rectangle(tabBounds.Left + closeButtonMargin, tabBounds.Top + closeButtonMargin, closeButtonSize, closeButtonSize);
@@ -93,15 +93,15 @@ namespace ParadoxEditor
                 return;
             }
 
-            for (int i = 0; i < this.TabCount; i++)
+            for (int i = 0; i < TabCount; i++)
             {
-                Rectangle tabBounds = this.GetTabRect(i);
+                Rectangle tabBounds = GetTabRect(i);
                 Rectangle closeButtonRect = new Rectangle(tabBounds.Right - closeButtonSize - closeButtonMargin, tabBounds.Top + closeButtonMargin, closeButtonSize, closeButtonSize);
 
                 if (closeButtonRect.Contains(e.Location))
                 {
-                    closedPages.Add(this.TabPages[i]);
-                    this.TabPages.RemoveAt(i);
+                    closedPages.Add(TabPages[i]);
+                    TabPages.RemoveAt(i);
                     break;
                 }
 
@@ -120,13 +120,13 @@ namespace ParadoxEditor
 
             if (e.Button == MouseButtons.Right)
             {
-                for (int i = 0; i < this.TabCount; i++)
+                for (int i = 0; i < TabCount; i++)
                 {
-                    Rectangle tabBounds = this.GetTabRect(i);
+                    Rectangle tabBounds = GetTabRect(i);
 
                     if (tabBounds.Contains(e.Location))
                     {
-                        this.SelectedIndex = i;
+                        SelectedIndex = i;
 
                         ContextMenuStrip contextMenu = new ContextMenuStrip();
                         ToolStripMenuItem closeTabMenuItem = new ToolStripMenuItem("Close");
@@ -139,8 +139,8 @@ namespace ParadoxEditor
 
                         contextMenu.Items.AddRange(new ToolStripItem[] { closeTabMenuItem, closeAllButThisMenuItem, closeAllOtherTabsMenuItem, restoreClosedTabMenuItem, pinTabMenuItem, moveToOtherViewItem, hideTabControl });
 
-                        closeTabMenuItem.Click += (sender, args) => { closedPages.Add(this.SelectedTab); this.TabPages.Remove(this.SelectedTab); };
-                        closeAllButThisMenuItem.Click += (sender, args) => { CloseAllTabsExcept(this.SelectedTab); };
+                        closeTabMenuItem.Click += (sender, args) => { closedPages.Add(SelectedTab); TabPages.Remove(SelectedTab); };
+                        closeAllButThisMenuItem.Click += (sender, args) => { CloseAllTabsExcept(SelectedTab); };
                         closeAllOtherTabsMenuItem.Click += (sender, args) => { CloseAllTabs(); };
                         restoreClosedTabMenuItem.Click += (sender, args) => { RestoreLastClosedTab(); };
                         moveToOtherViewItem.Click += (sender, args) => { MoveToOtherView(); };
@@ -158,8 +158,8 @@ namespace ParadoxEditor
         {
             if (otherTabControl != null)
             {
-                TabPage selectedTab = this.SelectedTab;
-                if(otherTabControl.isHidden)
+                TabPage selectedTab = SelectedTab;
+                if (otherTabControl.isHidden)
                 {
                     otherTabControl.Show();
                     otherTabControl.isHidden = false;
@@ -174,7 +174,7 @@ namespace ParadoxEditor
         }
         private void CloseAllTabsExcept(TabPage tabPageToKeep)
         {
-            foreach (TabPage tabPage in this.TabPages)
+            foreach (TabPage tabPage in TabPages)
             {
                 if (tabPage != tabPageToKeep)
                 {
@@ -182,16 +182,16 @@ namespace ParadoxEditor
                 }
             }
 
-            this.TabPages.Clear();
-            this.TabPages.Add(tabPageToKeep);
+            TabPages.Clear();
+            TabPages.Add(tabPageToKeep);
         }
         private void CloseAllTabs()
         {
-            foreach (TabPage tabPage in this.TabPages)
+            foreach (TabPage tabPage in TabPages)
             {
                 closedPages.Add(tabPage);
             }
-            this.TabPages.Clear();
+            TabPages.Clear();
         }
 
         private void RestoreLastClosedTab()
@@ -199,8 +199,8 @@ namespace ParadoxEditor
             if (closedPages.Count > 0)
             {
                 TabPage lastClosedTab = closedPages[closedPages.Count - 1];
-                this.TabPages.Add(lastClosedTab);
-                this.SelectedTab = lastClosedTab;
+                TabPages.Add(lastClosedTab);
+                SelectedTab = lastClosedTab;
                 closedPages.RemoveAt(closedPages.Count - 1);
             }
         }
@@ -208,13 +208,13 @@ namespace ParadoxEditor
         {
             if (otherTabControl != null)
             {
-                if(otherTabControl.isHidden)
+                if (otherTabControl.isHidden)
                 {
                     otherTabControl.Show();
                     otherTabControl.isHidden = false;
                 }
-                TabPage selectedTab = this.SelectedTab;
-                this.TabPages.Remove(selectedTab);
+                TabPage selectedTab = SelectedTab;
+                TabPages.Remove(selectedTab);
                 otherTabControl.TabPages.Add(selectedTab);
                 otherTabControl.SelectedTab = selectedTab;
             }
