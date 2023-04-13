@@ -194,7 +194,8 @@ namespace ParadoxEditor
                 {
                     TabPage tabPage = new TabPage(selectedNode.Text);
                     DesignerBrowserUserControl designerBrowser = new();
-                    designerBrowser.Dock = DockStyle.Left;
+                    designerBrowser.RootNode = rootNode;
+                    designerBrowser.Dock = DockStyle.Fill;
                     List<string> names = new();
                     foreach (Node node in rootNode.Children)
                     {
