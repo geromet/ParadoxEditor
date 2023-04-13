@@ -34,6 +34,9 @@ namespace Reader
             if (string.IsNullOrEmpty(_line) || _line.StartsWith("#"))
                 return;
 
+            // Skip over any '#' symbols in the line that are not between quotes
+            _line = Regex.Replace(_line, @"(?<=(^|[^""])(""[^""]*"")*)#.*$", "");
+
             if (_line.EndsWith("{"))
             {
                 Node node = new Node { Name = _line.TrimEnd('{').Trim() };
