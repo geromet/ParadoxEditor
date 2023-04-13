@@ -4,48 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test
+namespace Reader
 {
     public class Node
     {
-        public string? Name;
-        public List<Node> Children;
-        public string? Value;
-        public List<string> Values;
+        public string? Name { get; init; }
+        public List<Node> Children { get; } = new();
+        public string? Value { get; init; }
+        public List<string> Values { get; } = new();
 
-        public Node(string? name = null)
-        {
-            Name = name;
-            Children = new List<Node>();
-            Values = new List<string>();
-        }
+        public override string ToString() => ToString(0);
 
-        public override string ToString()
+        public string ToString(int indent)
         {
-            StringBuilder sb = new StringBuilder();
-            ToString(sb, 0);
+            var sb = new StringBuilder();
+            BuildString(sb, indent);
             return sb.ToString();
         }
 
-        private void ToString(StringBuilder sb, int indent)
+        private void BuildString(StringBuilder sb, int indent)
         {
-            if (Name != null)
+            sb.AppendLine($"{new string('\t', indent)}Node");
+            sb.AppendLine($"{new string('\t', indent)}{{");
+            sb.AppendLine($"{new string('\t', indent + 1)}Name = {Name}");
+            if (Value is not null)
             {
-                sb.Append(new string(' ', indent * 4));
-                sb.Append(Name);
-                if (Value != null && indent > 0)
+                sb.AppendLine($"{new string('\t', indent + 1)}Value = {Value}");
+            }
+            else if (Values.Count > 0)
+            {
+                sb.AppendLine($"{new string('\t', indent + 1)}Values =");
+                sb.AppendLine($"{new string('\t', indent + 1)}{{");
+                foreach (var value in Values)
                 {
-                    sb.Append(" = ");
-                    sb.Append(Value);
+                    sb.AppendLine($"{new string('\t', indent + 2)}{value}");
                 }
-                sb.AppendLine();
+                sb.AppendLine($"{new string('\t', indent + 1)}}}");
             }
-
-            foreach (var child in Children)
+            if (Children.Count > 0)
             {
-                child.ToString(sb, indent + 1);
+                sb.AppendLine($"{new string('\t', indent + 1)}Children =");
+                sb.AppendLine($"{new string('\t', indent + 1)}{{");
+                foreach (var child in Children)
+                {
+                    child.BuildString(sb, indent + 2);
+                }
+                sb.AppendLine($"{new string('\t', indent + 1)}}}");
             }
+            sb.AppendLine($"{new string('\t', indent)}}}");
         }
-    }
 
-}
+    }

@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Reader;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -179,10 +181,8 @@ namespace ParadoxEditor
             }
         }
 
-        private void OpenInDesignerMenuItem_Click(object sender, EventArgs e)
+        private async void OpenInDesignerMenuItem_Click(object sender, EventArgs e)
         {
-            // The implementation for opening the designer will depend on the type of file and the UserControls you create for editing.
-            // For now, just create a new tab with the file name.
             TreeNode selectedNode = treeView1.SelectedNode;
 
             if (selectedNode != null)
@@ -191,9 +191,14 @@ namespace ParadoxEditor
                 TextEditorUserControl textEditor = new TextEditorUserControl();
                 tabPage.Controls.Add(textEditor);
                 textEditor.Dock = DockStyle.Fill;
-                textEditor.richTextBox1.Text = Reader.Parser.Parse(selectedNode.FullPath).ToString();
-                tabControl1.TabPages.Add(tabPage);
-                tabControl1.SelectedTab = tabPage;
+                Node rootNode =  await Reader.NodeLibrary.ParseInput(selectedNode.FullPath);
+                if(rootNode!=null)
+                {
+                    textEditor.richTextBox1.Text = NodeLibrary.Print(rootNode);
+                    tabControl1.TabPages.Add(tabPage);
+                    tabControl1.SelectedTab = tabPage;
+                }
+
             }
         }
 

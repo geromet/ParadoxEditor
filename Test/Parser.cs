@@ -8,136 +8,105 @@ namespace Test
 {
     public class Parser
     {
-        private string input;
-        private int position;
+        private readonly TextReader _reader;
+        private string? _line;
 
-        public Parser(string input)
+        public Parser(TextReader reader)
         {
-            this.input = input;
-            position = 0;
+            _reader = reader;
         }
 
         public Node Parse()
         {
-            Node root = new Node();
-            ParseChildren(root);
+            Node root = new();
+            while ((_line = _reader.ReadLine()) is not null)
+            {
+                _line = _line.Trim();
+                if (_line.Length == 0 || _line.StartsWith('#'))
+                {
+                    continue;
+                }
+
+                Node node = ParseNode();
+                root.Children.Add(node);
+            }
+
             return root;
         }
 
-        private void ParseChildren(Node parent)
+        private Node ParseNode()
         {
-            while (position < input.Length)
+            Node node = new() { Name = ParseName() };
+            if (_line == "=")
             {
-                SkipWhitespaceAndComments();
+                node.Value = ParseValue();
+                return node;
+            }
 
-                if (position >= input.Length)
+            if (_line == "{")
+            {
+                while ((_line = _reader.ReadLine()) is not null)
                 {
-                    break;
-                }
-
-                char ch = input[position];
-
-                if (ch == '{')
-                {
-                    position++;
-                    Node child = new Node(ReadName());
-                    parent.Children.Add(child);
-                    ParseChildren(child);
-                }
-                else if (ch == '}')
-                {
-                    position++;
-                    return;
-                }
-                else if (ch == '=')
-                {
-                    position++;
-                    string name = parent.Name ?? "";
-                    string value = ReadValue();
-
-                    if (parent.Value == null)
+                    _line = _line.Trim();
+                    if (_line.Length == 0 || _line.StartsWith('#'))
                     {
-                        parent.Value = value;
+                        continue;
+                    }
+
+                    if (_line == "}")
+                    {
+                        break;
+                    }
+
+                    Node childNode = ParseNode();
+                    if (childNode.Name == "Values")
+                    {
+                        node.Values.AddRange(childNode.Values);
                     }
                     else
                     {
-                        parent.Values.Add(value);
-                        parent.Value = string.Join(",", parent.Values);
-                    }
-                }
-                else
-                {
-                    string name = ReadName();
-                    if (parent.Name == null)
-                    {
-                        parent.Name = name;
-                    }
-                    else
-                    {
-                        Node child = new Node(name);
-                        parent.Children.Add(child);
+                        node.Children.Add(childNode);
                     }
                 }
             }
+
+            return node;
         }
 
-        private void SkipWhitespaceAndComments()
+        private string ParseName()
         {
-            while (position < input.Length)
-            {
-                char ch = input[position];
-                if (char.IsWhiteSpace(ch))
-                {
-                    position++;
-                }
-                else if (ch == '#')
-                {
-                    position++;
-                    while (position < input.Length && input[position] != '\n')
-                    {
-                        position++;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
+            string[] parts = _line.Split(new[] { ' ', '=' }, StringSplitOptions.RemoveEmptyEntries);
+            _line = parts.Length > 1 ? parts[1] : "=";
+            return parts[0];
         }
 
-        private string ReadName()
+        private string ParseValue()
         {
-            StringBuilder sb = new StringBuilder();
-            while (position < input.Length && !char.IsWhiteSpace(input[position]) && input[position] != '{' && input[position] != '}')
+            if (_line.StartsWith("{"))
             {
-                sb.Append(input[position]);
-                position++;
-            }
-            return sb.ToString();
-        }
-
-        private string ReadValue()
-        {
-            StringBuilder sb = new StringBuilder();
-            while (position < input.Length && !char.IsWhiteSpace(input[position]) && input[position] != '}')
-            {
-                if (input[position] == '\"')
+                var values = new List<string>();
+                while ((_line = _reader.ReadLine()) is not null)
                 {
-                    position++;
-                    while (position < input.Length && input[position] != '\"')
+                    _line = _line.Trim();
+                    if (_line.Length == 0 || _line.StartsWith('#'))
                     {
-                        sb.Append(input[position]);
-                        position++;
+                        continue;
                     }
-                    position++;
+
+                    if (_line == "}")
+                    {
+                        break;
+                    }
+
+                    values.Add(_line);
                 }
-                else
-                {
-                    sb.Append(input[position]);
-                    position++;
-                }
+                Node valuesNode = new() { Name = "Values", Values = values };
+                return valuesNode.ToString();
             }
-            return sb.ToString();
+
+            string value = _line;
+            _line = null;
+            return value;
         }
     }
 

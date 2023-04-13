@@ -1,94 +1,73 @@
-﻿using System;
+﻿using Reader;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 namespace Reader
 {
-        public class Parser
-        {
-        public static Node Parse(string filePath = "00_country_ideas.txt")
-        {
-            string content = File.ReadAllText(filePath);
-            Node rootNode = new Node
-            {
-                Name = Path.GetFileName(filePath),
-                Children = new List<Node>()
-            };
+    public class Parser
+    {
+        private readonly TextReader _reader;
+        private string _line;
 
-            string[] lines = content.Split('\n');
-            StringBuilder filteredContent = new StringBuilder();
+        public Parser(TextReader reader)
+        {
+            _reader = reader;
+        }
 
-            foreach (string line in lines)
+        public async Task<Node> ParseAsync()
+        {
+            Node rootNode = new Node();
+            while ((_line = _reader.ReadLine()) != null)
             {
-                string[] parts = line.Split('#', StringSplitOptions.TrimEntries);
-                if (parts.Length > 0)
-                {
-                    filteredContent.AppendLine(parts[0]);
-                }
+                if (_line.Trim().Length == 0) continue;
+                ParseNode(rootNode);
             }
-
-            ParseContent(filteredContent.ToString(), 0, rootNode);
             return rootNode;
         }
 
-        private static int ParseContent(string content, int index, Node parentNode)
+        private void ParseNode(Node parent)
         {
-            while (index < content.Length)
+            _line = _line.Trim();
+            if (string.IsNullOrEmpty(_line) || _line.StartsWith("#"))
+                return;
+
+            if (_line.EndsWith("{"))
             {
-                if (char.IsLetter(content[index]))
+                Node node = new Node { Name = _line.TrimEnd('{').Trim() };
+                parent.Children.Add(node);
+                while ((_line = _reader.ReadLine()) != null && !_line.Trim().StartsWith("}"))
                 {
-                    int equalsIndex = content.IndexOf('=', index);
-                    string name = content.Substring(index, equalsIndex - index).Trim();
-
-                    index = equalsIndex + 1;
-                    while (char.IsWhiteSpace(content[index])) index++;
-
-                    if (content[index] == '{')
-                    {
-                        Node currentNode = new Node
-                        {
-                            Name = name,
-                            Children = new List<Node>()
-                        };
-
-                        parentNode.Children.Add(currentNode);
-                        index = ParseContent(content, index + 1, currentNode);
-                    }
-                    else
-                    {
-                        int valueEnd = content.IndexOfAny(new[] { '\n', '}' }, index);
-                        if (valueEnd == -1)
-                        {
-                            valueEnd = content.Length;
-                        }
-
-                        string value = content.Substring(index, valueEnd - index).Trim();
-
-                        parentNode.Children.Add(new Node
-                        {
-                            Name = name,
-                            Value = value
-                        });
-
-                        index = valueEnd;
-                    }
+                    ParseNode(node);
                 }
-                else if (content[index] == '}')
+            }
+            else if (_line.Contains("="))
+            {
+                var keyValue = _line.Split(new[] { '=' }, 2);
+                string key = keyValue[0].Trim();
+                string value = keyValue[1].Trim().TrimEnd(';');
+                if (value.Contains("{"))
                 {
-                    return index + 1;
+                    Node node = new Node { Name = key };
+                    parent.Children.Add(node);
+                    ParseValues(value.Trim('{', '}', ' ').Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries), node);
                 }
                 else
                 {
-                    index++;
+                    parent.Children.Add(new Node { Name = key, Value = value });
                 }
             }
-
-            return index;
         }
 
+        private void ParseValues(string[] values, Node node)
+        {
+            foreach (var value in values)
+            {
+                node.Values.Add(value.Trim());
+            }
+        }
     }
-
 }
 
