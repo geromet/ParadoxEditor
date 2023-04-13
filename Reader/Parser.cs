@@ -20,7 +20,7 @@ namespace Reader
         public async Task<Node> ParseAsync()
         {
             Node rootNode = new Node();
-            while ((_line = _reader.ReadLine()) != null)
+            while ((_line = await _reader.ReadLineAsync()) != null)
             {
                 if (_line.Trim().Length == 0) continue;
                 ParseNode(rootNode);
@@ -59,6 +59,11 @@ namespace Reader
                     parent.Children.Add(new Node { Name = key, Value = value });
                 }
             }
+            else // For multiple strings without { } or = between them
+            {
+                string[] values = _line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                ParseValues(values, parent);
+            }
         }
 
         private void ParseValues(string[] values, Node node)
@@ -70,4 +75,3 @@ namespace Reader
         }
     }
 }
-
