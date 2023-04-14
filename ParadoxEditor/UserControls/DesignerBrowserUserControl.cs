@@ -35,14 +35,36 @@ namespace ParadoxEditor
             {
                 ListViewItem selectedItem = listView1.SelectedItems[0];
                 Node node = RootNode.Children.Find(node => node.Name == selectedItem.Text);
-                TabPage tabPage = new TabPage(selectedItem.Text);
-                TextEditorUserControl textEditor = new TextEditorUserControl();
-                tabPage.Controls.Add(textEditor);
-                textEditor.Dock = DockStyle.Fill;
-                textEditor.richTextBox1.Text = NodeLibrary.Print(node);
-                darkTabControl1.TabPages.Add(tabPage);
-                darkTabControl1.SelectedTab = tabPage;
+
+                // Check if a tab with the same name already exists
+                TabPage existingTabPage = null;
+                foreach (TabPage tabPage in darkTabControl1.TabPages)
+                {
+                    if (tabPage.Text == selectedItem.Text)
+                    {
+                        existingTabPage = tabPage;
+                        break;
+                    }
+                }
+
+                // If a tab with the same name doesn't exist, create a new one
+                if (existingTabPage == null)
+                {
+                    TabPage tabPage = new TabPage(selectedItem.Text);
+                    TextEditorUserControl textEditor = new TextEditorUserControl();
+                    tabPage.Controls.Add(textEditor);
+                    textEditor.Dock = DockStyle.Fill;
+                    textEditor.richTextBox1.Text = NodeLibrary.Print(node);
+                    darkTabControl1.TabPages.Add(tabPage);
+                    darkTabControl1.SelectedTab = tabPage;
+                }
+                else
+                {
+                    // If a tab with the same name exists, select it
+                    darkTabControl1.SelectedTab = existingTabPage;
+                }
             }
         }
+
     }
 }
