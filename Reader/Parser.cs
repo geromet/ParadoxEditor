@@ -60,7 +60,7 @@ namespace Reader
 
             if (_line.EndsWith("{"))
             {
-                Node node = new Node { Name = _line.TrimEnd('{').Trim() };
+                Node node = new Node { Name = _line.TrimEnd('{').Trim().TrimEnd('=') };
                 parent.Children.Add(node);
                 while ((_line = _reader.ReadLine()) != null)
                 {

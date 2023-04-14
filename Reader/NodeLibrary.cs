@@ -26,8 +26,32 @@ namespace Reader
             PrintNode(sb, node, 0);
             return sb.ToString();
         }
-
         private static void PrintNode(StringBuilder sb, Node node, int indent)
+        {
+            sb.Append($"{new string('\t', indent + 1)}{node.Name}");
+            if (node.Value is not null)
+            {
+                sb.AppendLine($" = {node.Value}");
+            }
+            else if (node.Values.Count > 0)
+            {
+                sb.AppendLine($" =");
+                foreach (string value in node.Values)
+                {
+                    sb.AppendLine($"{new string('\t', indent + 2)}{value}");
+                }
+            }
+
+            if (node.Children.Count > 0)
+            {
+                sb.AppendLine($" =");
+                foreach (Node child in node.Children)
+                {
+                    PrintNode(sb, child, indent + 2);
+                }
+            }
+        }
+        private static void PrintNodeDebug(StringBuilder sb, Node node, int indent)
         {
             sb.AppendLine($"{new string('\t', indent)}Node");
             sb.AppendLine($"{new string('\t', indent)}{{");
