@@ -33,21 +33,25 @@
             // 
             // richTextBox1
             // 
-            richTextBox1.BackColor = Color.FromArgb(64, 64, 64);
+            richTextBox1.BackColor = Color.FromArgb(53, 51, 50);
             richTextBox1.Dock = DockStyle.Fill;
+            richTextBox1.ForeColor = Color.FromArgb(181, 177, 175);
             richTextBox1.Location = new Point(0, 0);
+            richTextBox1.Margin = new Padding(3, 2, 3, 2);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(150, 150);
+            richTextBox1.Size = new Size(131, 112);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
             richTextBox1.KeyDown += richTextBox1_KeyDown;
             // 
             // TextEditorUserControl
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(richTextBox1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "TextEditorUserControl";
+            Size = new Size(131, 112);
             ResumeLayout(false);
         }
 

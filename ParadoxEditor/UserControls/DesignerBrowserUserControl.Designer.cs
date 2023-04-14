@@ -36,12 +36,14 @@ namespace ParadoxEditor
             // 
             // listView1
             // 
-            listView1.BackColor = Color.FromArgb(42, 34, 34);
+            listView1.BackColor = Color.FromArgb(53, 51, 50);
             listView1.BorderStyle = BorderStyle.None;
             listView1.Dock = DockStyle.Left;
+            listView1.ForeColor = Color.FromArgb(181, 177, 175);
             listView1.Location = new Point(0, 0);
+            listView1.Margin = new Padding(3, 2, 3, 2);
             listView1.Name = "listView1";
-            listView1.Size = new Size(151, 528);
+            listView1.Size = new Size(132, 396);
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.List;
@@ -50,21 +52,25 @@ namespace ParadoxEditor
             // darkTabControl1
             // 
             darkTabControl1.Dock = DockStyle.Fill;
-            darkTabControl1.Location = new Point(151, 0);
+            darkTabControl1.Location = new Point(132, 0);
+            darkTabControl1.Margin = new Padding(3, 2, 3, 2);
             darkTabControl1.Name = "darkTabControl1";
             darkTabControl1.SelectedIndex = 0;
-            darkTabControl1.Size = new Size(547, 528);
+            darkTabControl1.Size = new Size(479, 396);
             darkTabControl1.TabIndex = 1;
             // 
             // DesignerBrowserUserControl
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
+            BackColor = Color.FromArgb(25, 25, 25);
             Controls.Add(darkTabControl1);
             Controls.Add(listView1);
+            ForeColor = Color.FromArgb(130, 131, 131);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "DesignerBrowserUserControl";
-            Size = new Size(698, 528);
+            Size = new Size(611, 396);
             ResumeLayout(false);
         }
 

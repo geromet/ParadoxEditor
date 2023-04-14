@@ -50,24 +50,25 @@ namespace ParadoxEditor
             // 
             // MainMenu
             // 
-            MainMenu.BackColor = Color.FromArgb(46, 44, 44);
+            MainMenu.BackColor = Color.FromArgb(25, 25, 25);
+            MainMenu.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             MainMenu.ImageScalingSize = new Size(20, 20);
             MainMenu.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, exitToolStripMenuItem, resizeToolStripMenuItem, minimizeToolStripMenuItem });
             MainMenu.Location = new Point(0, 0);
             MainMenu.Name = "MainMenu";
-            MainMenu.Padding = new Padding(7, 3, 0, 3);
-            MainMenu.Size = new Size(914, 30);
+            MainMenu.Size = new Size(800, 25);
             MainMenu.TabIndex = 2;
             MainMenu.MouseDown += MainMenu_MouseDown_1;
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.BackColor = Color.FromArgb(46, 44, 44);
+            fileToolStripMenuItem.BackColor = Color.FromArgb(25, 25, 25);
             fileToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importDirectoryToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(46, 24);
+            fileToolStripMenuItem.Size = new Size(39, 21);
             fileToolStripMenuItem.Text = "File";
+            fileToolStripMenuItem.Click += fileToolStripMenuItem_Click;
             // 
             // importDirectoryToolStripMenuItem
             // 
@@ -75,7 +76,7 @@ namespace ParadoxEditor
             importDirectoryToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
             importDirectoryToolStripMenuItem.ForeColor = Color.FromArgb(113, 111, 111);
             importDirectoryToolStripMenuItem.Name = "importDirectoryToolStripMenuItem";
-            importDirectoryToolStripMenuItem.Size = new Size(224, 26);
+            importDirectoryToolStripMenuItem.Size = new Size(180, 22);
             importDirectoryToolStripMenuItem.Text = "Import Directory";
             importDirectoryToolStripMenuItem.Click += importDirectoryToolStripMenuItem_Click;
             // 
@@ -83,7 +84,7 @@ namespace ParadoxEditor
             // 
             exitToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(47, 24);
+            exitToolStripMenuItem.Size = new Size(40, 21);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -91,7 +92,7 @@ namespace ParadoxEditor
             // 
             resizeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             resizeToolStripMenuItem.Name = "resizeToolStripMenuItem";
-            resizeToolStripMenuItem.Size = new Size(65, 24);
+            resizeToolStripMenuItem.Size = new Size(57, 21);
             resizeToolStripMenuItem.Text = "Resize";
             resizeToolStripMenuItem.Click += resizeToolStripMenuItem_Click;
             // 
@@ -99,20 +100,21 @@ namespace ParadoxEditor
             // 
             minimizeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
-            minimizeToolStripMenuItem.Size = new Size(84, 24);
+            minimizeToolStripMenuItem.Size = new Size(72, 21);
             minimizeToolStripMenuItem.Text = "Minimize";
             minimizeToolStripMenuItem.Click += minimizeToolStripMenuItem_Click;
             // 
             // treeView1
             // 
             treeView1.AllowDrop = true;
-            treeView1.BackColor = Color.FromArgb(38, 36, 36);
+            treeView1.BackColor = Color.FromArgb(53, 51, 50);
             treeView1.BorderStyle = BorderStyle.None;
             treeView1.Dock = DockStyle.Left;
-            treeView1.ForeColor = Color.FromArgb(101, 99, 99);
-            treeView1.Location = new Point(0, 30);
+            treeView1.ForeColor = Color.FromArgb(181, 177, 175);
+            treeView1.Location = new Point(0, 25);
+            treeView1.Margin = new Padding(3, 2, 3, 2);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(250, 570);
+            treeView1.Size = new Size(219, 425);
             treeView1.TabIndex = 3;
             treeView1.AfterSelect += treeView1_AfterSelect;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
@@ -120,7 +122,8 @@ namespace ParadoxEditor
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(250, 30);
+            splitContainer1.Location = new Point(219, 25);
+            splitContainer1.Margin = new Padding(3, 2, 3, 2);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -130,8 +133,8 @@ namespace ParadoxEditor
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tabControl2);
-            splitContainer1.Size = new Size(664, 570);
-            splitContainer1.SplitterDistance = 331;
+            splitContainer1.Size = new Size(581, 425);
+            splitContainer1.SplitterDistance = 289;
             splitContainer1.TabIndex = 5;
             // 
             // tabControl1
@@ -140,9 +143,10 @@ namespace ParadoxEditor
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(3, 2, 3, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(331, 570);
+            tabControl1.Size = new Size(289, 425);
             tabControl1.TabIndex = 5;
             // 
             // tabControl2
@@ -151,26 +155,29 @@ namespace ParadoxEditor
             tabControl2.Dock = DockStyle.Fill;
             tabControl2.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl2.Location = new Point(0, 0);
+            tabControl2.Margin = new Padding(3, 2, 3, 2);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(329, 570);
+            tabControl2.Size = new Size(288, 425);
             tabControl2.TabIndex = 5;
+            tabControl2.SelectedIndexChanged += tabControl2_SelectedIndexChanged;
             // 
             // ParadoxEditor
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(34, 32, 32);
-            ClientSize = new Size(914, 600);
+            BackColor = Color.FromArgb(25, 25, 25);
+            ClientSize = new Size(800, 450);
             ControlBox = false;
             Controls.Add(splitContainer1);
             Controls.Add(treeView1);
             Controls.Add(MainMenu);
-            ForeColor = Color.FromArgb(101, 99, 99);
+            ForeColor = Color.FromArgb(130, 131, 131);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 4, 3, 4);
+            MaximizeBox = false;
             MinimizeBox = false;
             Name = "ParadoxEditor";
+            StartPosition = FormStartPosition.CenterScreen;
             MainMenu.ResumeLayout(false);
             MainMenu.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);

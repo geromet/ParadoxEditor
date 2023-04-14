@@ -12,14 +12,15 @@ namespace ParadoxEditor
         public ParadoxEditor()
         {
             InitializeComponent();
-            tabControl1.BackColor = Color.FromArgb(45, 45, 48);
+            tabControl1.BackColor = Color.FromArgb(53, 51, 50);
             tabControl1.otherTabControl = tabControl2;
-            tabControl1.ForeColor = Color.FromArgb(220, 220, 220);
+            tabControl1.ForeColor = Color.FromArgb(181, 177, 175);
             tabControl1.VisibleChanged += TabControl_VisibleChanged;
             tabControl2.otherTabControl = tabControl1;
             tabControl2.VisibleChanged += TabControl_VisibleChanged;
-            treeView1.BackColor = Color.FromArgb(45, 45, 48);
-            treeView1.ForeColor = Color.FromArgb(220, 220, 220);
+            treeView1.BackColor = Color.FromArgb(53, 51, 50);
+            treeView1.ForeColor = Color.FromArgb(181, 177, 175);
+            MainMenu.ForeColor = Color.FromArgb(181, 177, 175);
         }
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -121,8 +122,8 @@ namespace ParadoxEditor
             TabControl tabControl = (TabControl)sender;
             TabPage tabPage = tabControl.TabPages[e.Index];
             Rectangle tabBounds = tabControl.GetTabRect(e.Index);
-            Color backgroundColor = Color.FromArgb(45, 45, 48);
-            Color foregroundColor = Color.FromArgb(220, 220, 220);
+            Color backgroundColor = Color.FromArgb(53, 51, 50);
+            Color foregroundColor = Color.FromArgb(181, 177, 175);
             using (Brush backgroundBrush = new SolidBrush(backgroundColor))
             {
                 e.Graphics.FillRectangle(backgroundBrush, e.Bounds);
@@ -239,6 +240,16 @@ namespace ParadoxEditor
             {
                 splitContainer1.SplitterDistance = splitContainer1.Width / 2;
             }
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

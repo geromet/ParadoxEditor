@@ -17,13 +17,13 @@ namespace ParadoxEditor
     public partial class TextEditorUserControl : UserControl
     {
 
-[DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
-    private const int WM_VSCROLL = 0x115;
-    private const int SB_THUMBPOSITION = 4;
-    private FindAndReplace findAndReplace;
-    public TextEditorUserControl()
+        private const int WM_VSCROLL = 0x115;
+        private const int SB_THUMBPOSITION = 4;
+        private FindAndReplace findAndReplace;
+        public TextEditorUserControl()
         {
             InitializeComponent();
         }
@@ -38,21 +38,21 @@ namespace ParadoxEditor
         }
         private void ShowSearchReplaceDialog()
         {
-            if(findAndReplace == null || findAndReplace.IsDisposed)
+            if (findAndReplace == null || findAndReplace.IsDisposed)
             {
                 findAndReplace = new FindAndReplace();
-                    findAndReplace.FindButton.Click += (s, e) =>
-                    {
-                        int startIndex = richTextBox1.SelectionStart + richTextBox1.SelectionLength;
-                        int foundIndex = richTextBox1.Find(findAndReplace.FindBox.Text, startIndex, RichTextBoxFinds.None);
+                findAndReplace.FindButton.Click += (s, e) =>
+                {
+                    int startIndex = richTextBox1.SelectionStart + richTextBox1.SelectionLength;
+                    int foundIndex = richTextBox1.Find(findAndReplace.FindBox.Text, startIndex, RichTextBoxFinds.None);
 
-                        if (foundIndex >= 0)
-                        {
-                            richTextBox1.SelectionStart = foundIndex;
-                            richTextBox1.SelectionLength = findAndReplace.FindBox.Text.Length;
-                            ScrollToCaret(richTextBox1);
-                        }
-                    };
+                    if (foundIndex >= 0)
+                    {
+                        richTextBox1.SelectionStart = foundIndex;
+                        richTextBox1.SelectionLength = findAndReplace.FindBox.Text.Length;
+                        ScrollToCaret(richTextBox1);
+                    }
+                };
 
                 findAndReplace.ReplaceButton.Click += (s, e) =>
                     {
@@ -86,11 +86,11 @@ namespace ParadoxEditor
                         }
                     };
 
-                    findAndReplace.FormClosed += (s, e) =>
-                    {
-                        findAndReplace.Dispose();
-                    };
-                    findAndReplace.Show();
+                findAndReplace.FormClosed += (s, e) =>
+                {
+                    findAndReplace.Dispose();
+                };
+                findAndReplace.Show();
 
             }
             else

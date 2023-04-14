@@ -5,8 +5,8 @@ namespace ParadoxEditor.Controls
 {
     public class DarkTabControl : TabControl
     {
-        private Color backgroundColor = Color.FromArgb(45, 45, 48);
-        private Color foregroundColor = Color.FromArgb(220, 220, 220);
+        private Color backgroundColor = Color.FromArgb(53, 51, 50);
+        private Color foregroundColor = Color.FromArgb(181, 177, 175);
         private const int closeButtonSize = 12;
         private const int closeButtonMargin = 4;
         private List<TabPage> closedPages = new List<TabPage>();

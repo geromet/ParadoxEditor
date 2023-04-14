@@ -13,8 +13,8 @@ namespace ParadoxEditor.Controls
             DrawNode += DarkTreeView_DrawNode;
             Scrollable = true;
 
-            BackColor = Color.FromArgb(45, 45, 48);
-            ForeColor = Color.FromArgb(240, 240, 240);
+            BackColor = Color.FromArgb(53, 51, 50);
+            ForeColor = Color.FromArgb(181, 177, 175);
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             UpdateStyles();
