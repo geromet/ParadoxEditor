@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Reader
@@ -22,12 +23,35 @@ namespace Reader
             Node rootNode = new Node();
             while ((_line = await _reader.ReadLineAsync()) != null)
             {
+                _line = RemoveInlineComments(_line);
                 if (_line.Trim().Length == 0) continue;
                 ParseNode(rootNode);
             }
             return rootNode;
         }
+        private string RemoveInlineComments(string line)
+        {
+            bool insideQuotes = false;
+            int commentStart = -1;
 
+            for (int i = 0; i < line.Length; i++)
+            {
+                char currentChar = line[i];
+
+                if (currentChar == '\"')
+                {
+                    insideQuotes = !insideQuotes;
+                }
+
+                if (!insideQuotes && currentChar == '#')
+                {
+                    commentStart = i;
+                    break;
+                }
+            }
+
+            return commentStart >= 0 ? line.Substring(0, commentStart).Trim() : line;
+        }
         private void ParseNode(Node parent)
         {
             _line = _line.Trim();
@@ -38,8 +62,11 @@ namespace Reader
             {
                 Node node = new Node { Name = _line.TrimEnd('{').Trim() };
                 parent.Children.Add(node);
-                while ((_line = _reader.ReadLine()) != null && !_line.Trim().StartsWith("}"))
+                while ((_line = _reader.ReadLine()) != null)
                 {
+                    _line = RemoveInlineComments(_line);
+                    if (_line.Trim().StartsWith("}"))
+                        break;
                     ParseNode(node);
                 }
             }
