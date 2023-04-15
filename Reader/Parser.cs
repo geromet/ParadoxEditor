@@ -75,6 +75,10 @@ namespace Reader
                 var keyValue = _line.Split(new[] { '=' }, 2);
                 string key = keyValue[0].Trim();
                 string value = keyValue[1].Trim().TrimEnd(';');
+                if (value.StartsWith("\"") && value.EndsWith("\""))
+                {
+                    value = value.Substring(1, value.Length - 2);
+                }
                 if (value.Contains("{"))
                 {
                     Node node = new Node { Name = key };
@@ -95,10 +99,33 @@ namespace Reader
 
         private void ParseValues(string[] values, Node node)
         {
+            bool insideQuotes = false;
+            StringBuilder quotedValue = new StringBuilder();
+
             foreach (var value in values)
             {
-                node.Values.Add(value.Trim());
+                if (value.StartsWith("\"") && !insideQuotes)
+                {
+                    insideQuotes = true;
+                    quotedValue.Append(value.Substring(1));
+                }
+                else if (value.EndsWith("\"") && insideQuotes)
+                {
+                    insideQuotes = false;
+                    quotedValue.Append(" " + value.TrimEnd('\"'));
+                    node.Values.Add(quotedValue.ToString());
+                    quotedValue.Clear();
+                }
+                else if (insideQuotes)
+                {
+                    quotedValue.Append(" " + value);
+                }
+                else
+                {
+                    node.Values.Add(value.Trim());
+                }
             }
         }
+
     }
 }

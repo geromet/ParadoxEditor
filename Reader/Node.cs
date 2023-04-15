@@ -14,17 +14,7 @@ namespace Reader
         public string? Name { get; set; }
         public List<Node> Children { get; set; } = new List<Node>();
         public string? Value { get; set; }
-
-        [NotMapped]
         public List<string> Values { get; set; } = new List<string>();
 
-        public string? ValueArrayJson { get; set; }
-
-        [NotMapped]
-        public string[] ValueArray
-        {
-            get => ValueArrayJson == null ? null : JsonSerializer.Deserialize<string[]>(ValueArrayJson);
-            set => ValueArrayJson = JsonSerializer.Serialize(value);
-        }
     }
 }

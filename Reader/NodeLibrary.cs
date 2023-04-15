@@ -26,6 +26,7 @@ namespace Reader
             PrintNode(sb, node, 0);
             return sb.ToString();
         }
+
         private static void PrintNode(StringBuilder sb, Node node, int indent)
         {
             sb.Append($"{new string('\t', indent + 1)}{node.Name}");
@@ -51,6 +52,79 @@ namespace Reader
                 }
             }
         }
+        public static string ConvertNodeToText(Node node)
+        {
+            StringBuilder sb = new StringBuilder();
+            ConvertNodeToTextRecursive(sb, node, 0, true);
+            return sb.ToString();
+        }
+
+        private static void ConvertNodeToTextRecursive(StringBuilder sb, Node node, int indent, bool isRoot = false)
+        {
+            int adjustedIndent = Math.Max(0, indent - (isRoot ? 1 : 0));
+            string indentation = new string('\t', adjustedIndent);
+
+            if (!string.IsNullOrEmpty(node.Name))
+            {
+                sb.Append($"{indentation}{node.Name}");
+
+                if (!string.IsNullOrEmpty(node.Value))
+                {
+                    if (node.Value.Contains(' ') || node.Value.Contains('#') || node.Value.Contains('$'))
+                    {
+                        sb.Append($" = \"{node.Value}\"");
+                    }
+                    else
+                    {
+                        sb.Append($" = {node.Value}");
+                    }
+
+                }
+                else if (node.Children.Count > 0 || node.Values.Count > 0)
+                {
+                    sb.Append(" =");
+                }
+            }
+
+            if (node.Values.Count > 0)
+            {
+                sb.Append("\n");
+                sb.Append($"{indentation}{{");
+
+                for (int i = 0; i < node.Values.Count; i++)
+                {
+                    string value = node.Values[i].Replace("\n", "").Replace("\r", "");
+
+                    sb.Append($"\n{indentation}\t{value}");
+                }
+
+                sb.Append($"\n{indentation}}}");
+            }
+
+            if (node.Children.Count > 0)
+            {
+                if (!isRoot)
+                {
+                    sb.Append("\n");
+                    sb.Append($"{indentation}{{\n");
+                }
+
+                foreach (var child in node.Children)
+                {
+                    ConvertNodeToTextRecursive(sb, child, indent + 1);
+                }
+
+                if (!isRoot)
+                {
+                    sb.Append($"{indentation}}}\n");
+                }
+            }
+            else if (!string.IsNullOrEmpty(node.Name))
+            {
+                sb.Append("\n");
+            }
+        }
+
         private static void PrintNodeDebug(StringBuilder sb, Node node, int indent)
         {
             sb.AppendLine($"{new string('\t', indent)}Node");
