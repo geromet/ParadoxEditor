@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,26 +30,28 @@ namespace Reader
 
         private static void PrintNode(StringBuilder sb, Node node, int indent)
         {
-            sb.Append($"{new string('\t', indent + 1)}{node.Name}");
+            sb.Append($"{new string('\t', indent)}{node.Name}");
             if (node.Value is not null)
             {
                 sb.AppendLine($" = {node.Value}");
             }
             else if (node.Values.Count > 0)
             {
-                sb.AppendLine($" =");
+                sb.AppendLine($" = {{");
                 foreach (string value in node.Values)
                 {
-                    sb.AppendLine($"{new string('\t', indent + 2)}{value}");
+                    sb.AppendLine($"{new string('\t', indent + 1)}{value}");
                 }
+                    sb.AppendLine("}");
+
             }
 
             if (node.Children.Count > 0)
             {
-                sb.AppendLine($" =");
+                sb.AppendLine($" = {{");
                 foreach (Node child in node.Children)
                 {
-                    PrintNode(sb, child, indent + 2);
+                    PrintNode(sb, child, indent +1);
                 }
             }
         }
